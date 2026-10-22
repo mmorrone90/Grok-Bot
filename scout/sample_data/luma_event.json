@@ -1,0 +1,4 @@
+{"event": {"name": "London Community Engineering Hackathon", "start_at": "2026-10-22T09:00:00Z", "geo_address_info": {"city": "London"},
+ "hosts": [{"name": "Night Office"}, {"name": "BuilderBase"}],
+ "sponsors": [{"name": "Supabase"}, {"name": "Cursor"}]},
+ "guests_companies": ["Monzo", "Wise", "Cleo AI", "Synthesia", "PhotoRoom", "Tide", "Octopus Energy"]}

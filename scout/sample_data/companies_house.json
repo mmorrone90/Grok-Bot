@@ -1,0 +1,7 @@
+{"Monzo": {"company_number": "09446231", "company_status": "active", "sic_codes": ["64191"], "registered_office_address": {"locality": "London"}},
+ "Wise": {"company_number": "07209813", "company_status": "active", "sic_codes": ["66190"], "registered_office_address": {"locality": "London"}},
+ "Synthesia": {"company_number": "10875220", "company_status": "active", "sic_codes": ["62012"], "registered_office_address": {"locality": "London"}},
+ "Octopus Energy": {"company_number": "09263424", "company_status": "active", "sic_codes": ["35140"], "registered_office_address": {"locality": "London"}},
+ "Cleo AI": {"company_number": "09722290", "company_status": "active", "sic_codes": ["62012"], "registered_office_address": {"locality": "London"}},
+ "Tide": {"company_number": "09916448", "company_status": "active", "sic_codes": ["62090"], "registered_office_address": {"locality": "London"}},
+ "PhotoRoom": {"company_number": null, "company_status": "unknown", "sic_codes": [], "registered_office_address": {"locality": "Paris"}}}

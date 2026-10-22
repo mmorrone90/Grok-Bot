@@ -1,0 +1,4 @@
+{"hackathons": [
+ {"title": "London AI Builders Weekend", "organization_name": "Synthesia", "themes": [{"name": "Machine Learning/AI"}], "displayed_location": {"location": "London"}, "prize_amount": "£10,000"},
+ {"title": "Fintech for Good", "organization_name": "Monzo", "themes": [{"name": "Fintech"}, {"name": "Social Good"}], "displayed_location": {"location": "London"}, "prize_amount": "£5,000"},
+ {"title": "Green Grid Hack", "organization_name": "Octopus Energy", "themes": [{"name": "Sustainability"}], "displayed_location": {"location": "London"}, "prize_amount": "£7,500"}]}
