@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+data/
+pricer/model.txt
+scout/out/
+.DS_Store
