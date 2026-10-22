@@ -1,0 +1,30 @@
+<!doctype html><html><head><meta charset="utf-8"><title>FrontDesk OS</title>
+<style>
+body{font-family:system-ui,sans-serif;margin:0;background:#0f1115;color:#e6e6e6}header{padding:14px 20px;background:#171a21;display:flex;gap:16px;align-items:center}
+h1{font-size:18px;margin:0}main{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;padding:14px}section{background:#171a21;border-radius:10px;padding:12px;overflow:auto;max-height:44vh}
+h2{font-size:13px;text-transform:uppercase;color:#8b93a7;margin:0 0 8px}.row{border-bottom:1px solid #262b36;padding:6px 0;font-size:13px}.bot{display:inline-block;padding:1px 6px;border-radius:4px;background:#2a3142;font-size:11px;margin-right:4px}
+button{background:#3b82f6;color:#fff;border:0;border-radius:6px;padding:4px 10px;cursor:pointer;margin-left:4px}button.r{background:#ef4444}button.g{background:#22c55e}.kpi{font-size:22px;font-weight:600}
+input{flex:1;padding:6px;border-radius:6px;border:0}.wide{grid-column:span 2}
+</style></head><body>
+<header><h1>FrontDesk OS</h1><input id="msg" value="can I book the hall Friday for a coding meetup?"><button onclick="sim()">Send WhatsApp (mock)</button></header>
+<main>
+<section><h2>Bots</h2><div id="bots"></div><h2 style="margin-top:12px">Revenue</h2><div id="rev"></div></section>
+<section class="wide"><h2>Approval queue</h2><div id="approvals"></div></section>
+<section class="wide"><h2>Live activity</h2><div id="activity"></div></section>
+<section><h2>Tasks</h2><div id="tasks"></div></section>
+<section class="wide"><h2>Bookings: community vs company price</h2><div id="bookings"></div></section>
+<section><h2>Sponsor leads</h2><div id="leads"></div></section>
+</main>
+<script>
+const $=id=>document.getElementById(id), post=u=>fetch(u,{method:'POST'}).then(load), esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+async function sim(){await fetch('/api/simulate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:$('msg').value})});load()}
+async function load(){const s=await (await fetch('/api/state')).json();
+$('bots').innerHTML=s.bots.map(b=>`<div class=row><span class=bot>${b.name}</span>${b.paused?'⏸ paused':'▶ running'}<button class="${b.paused?'g':'r'}" onclick="post('/api/bots/${b.name}/${b.paused?'resume':'pause'}')">${b.paused?'Resume':'Pause'}</button></div>`).join('');
+$('rev').innerHTML=`<div class=row>Confirmed <div class=kpi>£${s.revenue.confirmed.toFixed(0)}</div></div><div class=row>Pipeline <div class=kpi>£${s.revenue.pipeline.toFixed(0)}</div></div><div class=row>Community discount given <div class=kpi>£${s.revenue.community_gap.toFixed(0)}</div></div>`;
+$('approvals').innerHTML=s.approvals.map(a=>`<div class=row><span class=bot>${a.bot}</span><b>${esc(a.summary)}</b><button class=g onclick="post('/api/approvals/${a.id}/approve')">Approve</button><button class=r onclick="post('/api/approvals/${a.id}/reject')">Reject</button><div style="color:#8b93a7">${esc(a.payload.quote?a.payload.quote.explanation:(a.payload.draft||''))}</div></div>`).join('')||'Nothing waiting';
+$('activity').innerHTML=s.activity.map(a=>`<div class=row><span class=bot>${a.bot}</span>${new Date(a.ts*1000).toLocaleTimeString()} · ${esc(a.summary)}</div>`).join('');
+$('tasks').innerHTML=s.tasks.map(t=>`<div class=row>[${t.urgency}] ${esc(t.title)} → ${t.owner}</div>`).join('');
+$('bookings').innerHTML=s.bookings.map(b=>`<div class=row>${b.date} ${b.space} · ${b.segment} · quoted £${b.quoted_price.toFixed(0)} vs company £${b.company_price.toFixed(0)} · <b>${b.status}</b></div>`).join('');
+$('leads').innerHTML=s.leads.map(l=>`<div class=row><b>${esc(l.name)}</b> ${l.score.toFixed(0)} · ${l.pushed_to}<div style="color:#8b93a7">${esc(l.reason)}</div></div>`).join('');}
+load();setInterval(load,2000);
+</script></body></html>
